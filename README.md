@@ -113,15 +113,15 @@ GEYSER_API_TOKEN=your_token go run examples/multi_protocol_grpc.go
 | Description | Run Command | Source Code |
 |-------------|-------------|-------------|
 | **PumpFun** | | |
-| PumpFun trade filtering (Buy/Sell/BuyExactSolIn/Create) with latency metrics | `go run examples/pumpfun_trade_filter.go` | [examples/pumpfun_trade_filter.go](https://github.com/0xfnzero/sol-parser-sdk-golang/blob/main/examples/pumpfun_trade_filter.go) |
-| Quick PumpFun connection test (first 10 events) | `go run examples/pumpfun_quick_test.go` | [examples/pumpfun_quick_test.go](https://github.com/0xfnzero/sol-parser-sdk-golang/blob/main/examples/pumpfun_quick_test.go) |
+| PumpFun trade filtering with latency metrics | `go run examples/pumpfun_trade_filter.go` | [examples/pumpfun_trade_filter.go](https://github.com/0xfnzero/sol-parser-sdk-golang/blob/main/examples/pumpfun_trade_filter.go) |
+| Quick PumpFun connection test | `go run examples/pumpfun_quick_test.go` | [examples/pumpfun_quick_test.go](https://github.com/0xfnzero/sol-parser-sdk-golang/blob/main/examples/pumpfun_quick_test.go) |
 | **PumpSwap** | | |
-| PumpSwap ultra-low latency with per-event + 10s stats | `go run examples/pumpswap_low_latency.go` | [examples/pumpswap_low_latency.go](https://github.com/0xfnzero/sol-parser-sdk-golang/blob/main/examples/pumpswap_low_latency.go) |
-| PumpSwap events with performance metrics | `go run examples/pumpswap_with_metrics.go` | [examples/pumpswap_with_metrics.go](https://github.com/0xfnzero/sol-parser-sdk-golang/blob/main/examples/pumpswap_with_metrics.go) |
+| PumpSwap ultra-low latency with stats | `go run examples/pumpswap_low_latency.go` | [examples/pumpswap_low_latency.go](https://github.com/0xfnzero/sol-parser-sdk-golang/blob/main/examples/pumpswap_low_latency.go) |
+| PumpSwap events with metrics | `go run examples/pumpswap_with_metrics.go` | [examples/pumpswap_with_metrics.go](https://github.com/0xfnzero/sol-parser-sdk-golang/blob/main/examples/pumpswap_with_metrics.go) |
 | **Meteora DAMM** | | |
-| Meteora DAMM V2 (Swap/AddLiquidity/RemoveLiquidity/CreatePosition/ClosePosition) | `go run examples/meteora_damm_grpc.go` | [examples/meteora_damm_grpc.go](https://github.com/0xfnzero/sol-parser-sdk-golang/blob/main/examples/meteora_damm_grpc.go) |
+| Meteora DAMM V2 events | `go run examples/meteora_damm_grpc.go` | [examples/meteora_damm_grpc.go](https://github.com/0xfnzero/sol-parser-sdk-golang/blob/main/examples/meteora_damm_grpc.go) |
 | **Multi-Protocol** | | |
-| Subscribe to all DEX protocols simultaneously | `go run examples/multi_protocol_grpc.go` | [examples/multi_protocol_grpc.go](https://github.com/0xfnzero/sol-parser-sdk-golang/blob/main/examples/multi_protocol_grpc.go) |
+| Subscribe to all DEX protocols | `go run examples/multi_protocol_grpc.go` | [examples/multi_protocol_grpc.go](https://github.com/0xfnzero/sol-parser-sdk-golang/blob/main/examples/multi_protocol_grpc.go) |
 
 ### Basic Usage
 
