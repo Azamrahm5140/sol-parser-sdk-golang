@@ -150,34 +150,6 @@ func main() {
 }
 ```
 
-### 仅解析日志（无需 gRPC）
-
-```go
-package main
-
-import (
-    "fmt"
-    "sol-parser-sdk-golang/solparser"
-)
-
-func main() {
-    logs := []string{
-        "Program 6EF8rrecthR5Dkzon8Nwu78hRvfCKubJ14M5uBEwF6P invoke [1]",
-        "Program data: vdt/pQ8AAA...", // base64 编码的事件
-        "Program 6EF8rrecthR5Dkzon8Nwu78hRvfCKubJ14M5uBEwF6P success",
-    }
-
-    events, err := solparser.ParseLogsOnly(logs, "tx_signature", 123456789, nil)
-    if err != nil {
-        panic(err)
-    }
-
-    for _, ev := range events {
-        fmt.Printf("[%s] %+v\n", ev.EventType(), ev)
-    }
-}
-```
-
 ---
 
 ## 🏗️ 支持的协议与事件
