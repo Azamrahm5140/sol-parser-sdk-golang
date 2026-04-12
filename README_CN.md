@@ -46,12 +46,12 @@ go mod tidy
 **在其他 Go 工程引用** — 在 `go.mod` 中用 `replace` 指向上游或本地目录，例如：
 
 ```go
-require sol-parser-sdk-golang v0.0.0
+require sol-parser-sdk-golang v0.1.0
 
-replace sol-parser-sdk-golang => github.com/0xfnzero/sol-parser-sdk-golang v0.0.0
+replace sol-parser-sdk-golang => github.com/0xfnzero/sol-parser-sdk-golang v0.1.0
 ```
 
-（发布 tag 后改用真实版本号，或 `replace ... => ../sol-parser-sdk-golang` 做本地开发。）
+（或本地开发用 `replace ... => ../sol-parser-sdk-golang` 指向克隆目录。）
 
 ### 2. 环境变量（示例）
 

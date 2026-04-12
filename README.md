@@ -46,12 +46,12 @@ go mod tidy
 **Use in another module** — add a `replace` to this GitHub repo (or a local clone), for example:
 
 ```go
-require sol-parser-sdk-golang v0.0.0
+require sol-parser-sdk-golang v0.1.0
 
-replace sol-parser-sdk-golang => github.com/0xfnzero/sol-parser-sdk-golang v0.0.0
+replace sol-parser-sdk-golang => github.com/0xfnzero/sol-parser-sdk-golang v0.1.0
 ```
 
-(Use a real tagged version once published, or `replace ... => ../sol-parser-sdk-golang` for local dev.)
+(Or `replace ... => ../sol-parser-sdk-golang` for local dev without pulling the tag.)
 
 ### 2. Environment (examples)
 
