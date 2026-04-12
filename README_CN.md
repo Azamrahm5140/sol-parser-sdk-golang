@@ -1,25 +1,11 @@
 <div align="center">
     <h1>⚡ Sol Parser SDK - Go</h1>
-    <h3><em>高性能 Solana DEX 事件解析器，专为 Go 设计</em></h3>
+    <h3><em>高性能 Solana DEX 事件解析（Go）</em></h3>
 </div>
 
 <p align="center">
-    <strong>通过 Yellowstone gRPC 实时解析 Solana DEX 事件的 Go 库</strong>
-</p>
-
-<p align="center">
-    <a href="https://github.com/0xfnzero/sol-parser-sdk-golang">
-        <img src="https://img.shields.io/badge/go-sol--parser--sdk--golang-00ADD8.svg" alt="Go">
-    </a>
-    <a href="https://github.com/0xfnzero/sol-parser-sdk-golang/blob/main/LICENSE">
-        <img src="https://img.shields.io/badge/license-MIT-blue.svg" alt="License">
-    </a>
-</p>
-
-<p align="center">
-    <img src="https://img.shields.io/badge/Go-00ADD8?style=for-the-badge&logo=go&logoColor=white" alt="Go">
-    <img src="https://img.shields.io/badge/Solana-9945FF?style=for-the-badge&logo=solana&logoColor=white" alt="Solana">
-    <img src="https://img.shields.io/badge/gRPC-4285F4?style=for-the-badge&logo=grpc&logoColor=white" alt="gRPC">
+    <a href="https://github.com/0xfnzero/sol-parser-sdk-golang"><img src="https://img.shields.io/badge/go-sol--parser--sdk--golang-00ADD8.svg" alt="Go"></a>
+    <a href="https://github.com/0xfnzero/sol-parser-sdk-golang/blob/main/LICENSE"><img src="https://img.shields.io/badge/license-MIT-blue.svg" alt="License"></a>
 </p>
 
 <p align="center">
@@ -32,43 +18,24 @@
 
 ---
 
-## 📦 SDK 版本
+## 其他语言 SDK
 
-本 SDK 提供多种语言版本：
-
-| 语言 | 仓库 | 描述 |
-|------|------|------|
-| **Rust** | [sol-parser-sdk](https://github.com/0xfnzero/sol-parser-sdk) | 超低延迟，SIMD 优化 |
-| **Node.js** | [sol-parser-sdk-nodejs](https://github.com/0xfnzero/sol-parser-sdk-nodejs) | TypeScript/JavaScript，Node.js 支持 |
-| **Python** | [sol-parser-sdk-python](https://github.com/0xfnzero/sol-parser-sdk-python) | 原生 async/await 支持 |
-| **Go** | [sol-parser-sdk-golang](https://github.com/0xfnzero/sol-parser-sdk-golang) | 并发安全，goroutine 支持 |
+| 语言 | 仓库 |
+|------|------|
+| Rust | [sol-parser-sdk](https://github.com/0xfnzero/sol-parser-sdk) |
+| Node.js | [sol-parser-sdk-nodejs](https://github.com/0xfnzero/sol-parser-sdk-nodejs) |
+| Python | [sol-parser-sdk-python](https://github.com/0xfnzero/sol-parser-sdk-python) |
+| Go | [sol-parser-sdk-golang](https://github.com/0xfnzero/sol-parser-sdk-golang) |
 
 ---
 
-## 📊 性能亮点
+## 怎么用
 
-### ⚡ 实时解析
-- **零延迟** 基于日志的事件解析
-- **gRPC 流式传输** 支持 Yellowstone/Geyser 协议
-- **多协议** 单次订阅同时监听多个 DEX
-- **并发安全** 原子计数器与 goroutine 统计
+### 1. 安装
 
-### 🏗️ 支持的协议
-- ✅ **PumpFun** - Meme 代币交易
-- ✅ **PumpSwap** - PumpFun 交换协议
-- ✅ **Raydium AMM V4** - 自动做市商
-- ✅ **Raydium CLMM** - 集中流动性
-- ✅ **Raydium CPMM** - 集中池
-- ✅ **Orca Whirlpool** - 集中流动性 AMM
-- ✅ **Meteora DAMM V2** - 动态 AMM
-- ✅ **Meteora DLMM** - 动态流动性做市商
-- ✅ **Bonk Launchpad** - 代币发射平台
+本仓库 `go.mod` 的 module 路径为 **`sol-parser-sdk-golang`**（见 [`go.mod`](go.mod)），示例里使用 `import "sol-parser-sdk-golang/solparser"`。
 
----
-
-## 🔥 快速开始
-
-### 安装
+**源码克隆**（推荐）
 
 ```bash
 git clone https://github.com/0xfnzero/sol-parser-sdk-golang
@@ -76,226 +43,117 @@ cd sol-parser-sdk-golang
 go mod tidy
 ```
 
-### 运行示例
+**在其他 Go 工程引用** — 在 `go.mod` 中用 `replace` 指向上游或本地目录，例如：
 
-```bash
-# PumpFun 交易过滤（Buy/Sell/BuyExactSolIn/Create）
-GEYSER_API_TOKEN=your_token go run examples/pumpfun_trade_filter.go
+```go
+require sol-parser-sdk-golang v0.0.0
 
-# PumpSwap 超低延迟，附带性能指标
-GEYSER_API_TOKEN=your_token go run examples/pumpswap_low_latency.go
-
-# 同时订阅所有协议
-GEYSER_API_TOKEN=your_token go run examples/multi_protocol_grpc.go
-
-# Meteora DAMM V2 事件
-GEYSER_API_TOKEN=your_token go run examples/meteora_damm_grpc.go
-
-# ShredStream（Jito 风格 gRPC）：SubscribeEntries + DecodeGRPCEntry
-export SHRED_URL="http://127.0.0.1:10800"
-go run examples/shredstream_entries.go
-
-# Yellowstone gRPC（与 GRPC_URL / GRPC_TOKEN 环境变量）
-export GRPC_URL="https://solana-yellowstone-grpc.publicnode.com:443"
-export GRPC_TOKEN="your_token"
-go run examples/yellowstone_grpc_parse.go
+replace sol-parser-sdk-golang => github.com/0xfnzero/sol-parser-sdk-golang v0.0.0
 ```
 
-### 示例列表
+（发布 tag 后改用真实版本号，或 `replace ... => ../sol-parser-sdk-golang` 做本地开发。）
+
+### 2. 环境变量（示例）
+
+| 场景 | 变量 |
+|------|------|
+| 多数 Yellowstone 风格 gRPC 示例 | `GEYSER_ENDPOINT`、`GEYSER_API_TOKEN`（各示例文件内另有兼容变量名） |
+| [yellowstone_grpc_parse.go](examples/yellowstone_grpc_parse.go) | `GRPC_URL`、`GRPC_TOKEN`（未设置时回退 `GEYSER_*`） |
+| [shredstream_entries.go](examples/shredstream_entries.go) | **`SHRED_URL`** / **`SHRED_GRPC_ADDR`** — HTTP `host:port` 明文 ShredStream gRPC（**不是** `GRPC_URL`） |
+| [parse_tx_by_signature.go](examples/parse_tx_by_signature.go) | `TX_SIGNATURE`、`RPC_URL` |
+
+ShredStream 示例可选变量：`SHRED_PARSE_DEX`、`SHRED_MAX_JSON_PER_ENTRY`、`SHRED_JSON_COMPACT`、`SHREDSTREAM_QUIET`、`SHRED_MAX_MSG` 等，见 [examples/shredstream_entries.go](examples/shredstream_entries.go) 文件头注释。
+
+### 3. 冒烟
+
+```bash
+go test ./...
+```
+
+### 4. 全量 gRPC 交易解析（推荐）
+
+使用 **`ParseSubscribeTransaction`**（Geyser `SubscribeUpdateTransactionInfo` → 与 RPC 对齐的 message/meta），得到 **指令账户 + Program data 日志 + merge + Pump 系账户补全**，行为对齐 Rust `parse_rpc_transaction`。
+
+```go
+import "sol-parser-sdk-golang/solparser" // module 路径见 go.mod
+
+events, err := solparser.ParseSubscribeTransaction(slot, txInfo, nil, grpcRecvUs)
+if err != nil {
+    // 处理错误
+}
+for _, ev := range events {
+    // ev.Type、ev.Data — json.Marshal(ev) 输出 JSON
+}
+```
+
+更轻量：仅有日志时用 `ParseLogOptimized` 等日志路径。
+
+### 5. ShredStream（HTTP 端点，不是 Yellowstone gRPC）
+
+使用 **`SHRED_URL`** / **`SHRED_GRPC_ADDR`**（如 `http://127.0.0.1:10800`），**不要**用 `GRPC_URL`。
+
+```bash
+export SHRED_URL="http://127.0.0.1:10800"
+go run examples/shredstream_entries.go
+```
+
+示例对 `Entry.entries` 解码，并可选择将线格式交易走 **`DexEventsFromShredTransactionWire`** 输出 **`DexEvent` JSON**（仅静态账户；V0+ALT 完整账户需 Node 版 **`shredstream_pumpfun_json`** + RPC）。
+
+---
+
+## 示例列表
+
+在**仓库根目录**执行，`go mod tidy` 后即可。下表 **源码** 列链接到 GitHub `main` 上对应文件。
 
 | 描述 | 运行命令 | 源码 |
 |------|----------|------|
 | **PumpFun** | | |
-| PumpFun 交易过滤，附带延迟指标 | `go run examples/pumpfun_trade_filter.go` | [examples/pumpfun_trade_filter.go](https://github.com/0xfnzero/sol-parser-sdk-golang/blob/main/examples/pumpfun_trade_filter.go) |
+| PumpFun 事件 + 指标 | `GEYSER_API_TOKEN=… go run examples/pumpfun_with_metrics.go` | [pumpfun_with_metrics.go](https://github.com/0xfnzero/sol-parser-sdk-golang/blob/main/examples/pumpfun_with_metrics.go) |
+| PumpFun 交易过滤 | `GEYSER_API_TOKEN=… go run examples/pumpfun_trade_filter.go` | [pumpfun_trade_filter.go](https://github.com/0xfnzero/sol-parser-sdk-golang/blob/main/examples/pumpfun_trade_filter.go) |
+| 快速连接测试 | `GEYSER_API_TOKEN=… go run examples/pumpfun_quick_test.go` | [pumpfun_quick_test.go](https://github.com/0xfnzero/sol-parser-sdk-golang/blob/main/examples/pumpfun_quick_test.go) |
 | **PumpSwap** | | |
-| PumpSwap 超低延迟，含统计 | `go run examples/pumpswap_low_latency.go` | [examples/pumpswap_low_latency.go](https://github.com/0xfnzero/sol-parser-sdk-golang/blob/main/examples/pumpswap_low_latency.go) |
-| **多协议** | | |
-| 同时订阅所有 DEX 协议 | `go run examples/multi_protocol_grpc.go` | [examples/multi_protocol_grpc.go](https://github.com/0xfnzero/sol-parser-sdk-golang/blob/main/examples/multi_protocol_grpc.go) |
-| **Meteora** | | |
-| Meteora DAMM V2 事件 | `go run examples/meteora_damm_grpc.go` | [examples/meteora_damm_grpc.go](https://github.com/0xfnzero/sol-parser-sdk-golang/blob/main/examples/meteora_damm_grpc.go) |
-| **ShredStream** | | |
-| gRPC 订阅 + `entries` 解码（对齐 Rust `shredstream_example`） | `SHRED_URL=http://host:port go run examples/shredstream_entries.go` | [examples/shredstream_entries.go](https://github.com/0xfnzero/sol-parser-sdk-golang/blob/main/examples/shredstream_entries.go) |
+| PumpSwap + 指标 | `GEYSER_API_TOKEN=… go run examples/pumpswap_with_metrics.go` | [pumpswap_with_metrics.go](https://github.com/0xfnzero/sol-parser-sdk-golang/blob/main/examples/pumpswap_with_metrics.go) |
+| 超低延迟 | `GEYSER_API_TOKEN=… go run examples/pumpswap_low_latency.go` | [pumpswap_low_latency.go](https://github.com/0xfnzero/sol-parser-sdk-golang/blob/main/examples/pumpswap_low_latency.go) |
+| **Meteora DAMM** | | |
+| Meteora DAMM V2 | `GEYSER_API_TOKEN=… go run examples/meteora_damm_grpc.go` | [meteora_damm_grpc.go](https://github.com/0xfnzero/sol-parser-sdk-golang/blob/main/examples/meteora_damm_grpc.go) |
+| **ShredStream**（端点见上文步骤 5） | | |
+| SubscribeEntries + 解码 + 可选 DexEvent JSON | `SHRED_URL=http://host:port go run examples/shredstream_entries.go` | [shredstream_entries.go](https://github.com/0xfnzero/sol-parser-sdk-golang/blob/main/examples/shredstream_entries.go) |
 | **Yellowstone** | | |
-| Geyser 订阅 + `ParseLogsOnly`（可用 `GRPC_URL` / `GRPC_TOKEN`） | `GRPC_URL=... GRPC_TOKEN=... go run examples/yellowstone_grpc_parse.go` | [examples/yellowstone_grpc_parse.go](https://github.com/0xfnzero/sol-parser-sdk-golang/blob/main/examples/yellowstone_grpc_parse.go) |
+| Geyser 订阅 + `ParseSubscribeTransaction` | `GRPC_URL=… GRPC_TOKEN=… go run examples/yellowstone_grpc_parse.go` | [yellowstone_grpc_parse.go](https://github.com/0xfnzero/sol-parser-sdk-golang/blob/main/examples/yellowstone_grpc_parse.go) |
+| **多协议** | | |
+| 同时订阅多 DEX | `GEYSER_API_TOKEN=… go run examples/multi_protocol_grpc.go` | [multi_protocol_grpc.go](https://github.com/0xfnzero/sol-parser-sdk-golang/blob/main/examples/multi_protocol_grpc.go) |
+| **工具** | | |
+| 按签名拉 RPC 解析（非 gRPC 流） | `TX_SIGNATURE=… RPC_URL=… go run examples/parse_tx_by_signature.go` | [parse_tx_by_signature.go](https://github.com/0xfnzero/sol-parser-sdk-golang/blob/main/examples/parse_tx_by_signature.go) |
 
-### 基本用法
+---
 
-```go
-package main
+## 协议
 
-import (
-    "context"
-    "fmt"
-    "log"
-    "os"
+PumpFun、PumpSwap、Raydium AMM V4 / CLMM / CPMM、Orca Whirlpool、Meteora DAMM V2 / DLMM、Bonk Launchpad（见 `solparser/`）。
 
-    "sol-parser-sdk-golang/solparser"
-    "github.com/mr-tron/base58"
-)
+---
 
-func main() {
-    endpoint := "solana-yellowstone-grpc.publicnode.com:443"
-    token := os.Getenv("GEYSER_API_TOKEN")
+## 常用 API
 
-    client := solparser.NewGrpcClient(endpoint, token)
-    if err := client.Connect(); err != nil {
-        log.Fatal(err)
-    }
-    defer client.Close()
+- **`ParseSubscribeTransaction`** — Geyser 单笔交易 → `[]DexEvent`（指令 + 日志 + 合并 + Pump 补全）。
+- **`ParseRpcTransaction`** / **`ParseTransactionFromRpc`** — HTTP RPC JSON → 事件。
+- **`ParseInstructionUnified`** / **`ParseInnerInstructionUnified`** — 外层 8 字节 / 内层 16 字节 discriminator。
+- **`DexEventsFromShredTransactionWire`** — 线格式交易字节 → 外层 `ParseInstructionUnified`（Shred 静态账户）。
+- **`DecodeGRPCEntry`** / **`DecodeEntriesBincode`** — ShredStream `Entry.entries` → `DecodedTransaction`。
+- **`DexEvent`** — `json.Marshal` 输出 `{ "PumpSwapBuy": { … } }` 形式。
 
-    filter := &solparser.TransactionFilter{
-        AccountInclude: []string{
-            solparser.PUMPFUN_PROGRAM_ID,
-            solparser.PUMPSWAP_PROGRAM_ID,
-        },
-        Vote:   false,
-        Failed: false,
-    }
+---
 
-    err := client.SubscribeTransactions(context.Background(), filter, func(update *solparser.TransactionUpdate) {
-        txInfo := update.Transaction
-        if txInfo == nil {
-            return
-        }
+## 开发
 
-        sigStr := base58.Encode(txInfo.Signature)
-        logs := txInfo.LogMessages
-
-        events, err := solparser.ParseLogsOnly(logs, sigStr, update.Slot, nil)
-        if err != nil || len(events) == 0 {
-            return
-        }
-
-        for _, ev := range events {
-            fmt.Printf("[%s] %+v\n", ev.EventType(), ev)
-        }
-    })
-    if err != nil {
-        log.Fatal(err)
-    }
-}
+```bash
+go test ./...
+go build ./...
+go vet ./...
 ```
 
 ---
 
-## 🏗️ 支持的协议与事件
+## 许可证
 
-### 事件类型
-每个协议均支持：
-- 📈 **交易/兑换事件** - 买入/卖出交易
-- 💧 **流动性事件** - 存入/提取
-- 🏊 **池子事件** - 池子创建/初始化
-- 🎯 **仓位事件** - 开仓/平仓（CLMM）
-
-### PumpFun 事件
-- `PumpFunBuy` - 买入代币
-- `PumpFunSell` - 卖出代币
-- `PumpFunBuyExactSolIn` - 指定 SOL 数量买入
-- `PumpFunCreate` - 创建新代币
-- `PumpFunTrade` - 通用交易（兜底）
-
-### PumpSwap 事件
-- `PumpSwapBuy` - 通过池子买入代币
-- `PumpSwapSell` - 通过池子卖出代币
-- `PumpSwapCreatePool` - 创建流动性池
-- `PumpSwapLiquidityAdded` - 添加流动性
-- `PumpSwapLiquidityRemoved` - 移除流动性
-
-### Raydium 事件
-- `RaydiumAmmV4Swap` - AMM V4 兑换
-- `RaydiumClmmSwap` - CLMM 兑换
-- `RaydiumCpmmSwap` - CPMM 兑换
-
-### Orca 事件
-- `OrcaWhirlpoolSwap` - Whirlpool 兑换
-
-### Meteora 事件
-- `MeteoraDammV2Swap` - DAMM V2 兑换
-- `MeteoraDammV2AddLiquidity` - 添加流动性
-- `MeteoraDammV2RemoveLiquidity` - 移除流动性
-- `MeteoraDammV2CreatePosition` - 创建仓位
-- `MeteoraDammV2ClosePosition` - 关闭仓位
-
-### Bonk 事件
-- `BonkTrade` - Bonk Launchpad 交易
-
----
-
-## 📁 项目结构
-
-```
-sol-parser-sdk-golang/
-├── solparser/
-│   ├── grpc_client.go      # GrpcClient（连接、订阅、认证）
-│   ├── parser.go           # ParseLogsOnly、ParseTransactionEvents
-│   ├── types.go            # DexEvent、TransactionFilter、TransactionUpdate
-│   └── ...                 # 协议专用解析器
-├── proto/
-│   ├── geyser.proto        # Yellowstone gRPC proto
-│   └── generated/          # 生成的 Go proto 文件
-├── examples/
-│   ├── pumpfun_trade_filter.go
-│   ├── pumpswap_low_latency.go
-│   ├── multi_protocol_grpc.go
-│   └── meteora_damm_grpc.go
-├── go.mod
-└── go.sum
-```
-
----
-
-## 🔧 高级用法
-
-### 自定义 gRPC 端点
-
-```go
-endpoint := os.Getenv("GEYSER_ENDPOINT")
-if endpoint == "" {
-    endpoint = "solana-yellowstone-grpc.publicnode.com:443"
-}
-token := os.Getenv("GEYSER_API_TOKEN")
-client := solparser.NewGrpcClient(endpoint, token)
-```
-
-### 并发统计（原子计数器）
-
-```go
-import "sync/atomic"
-
-var totalEvents int64
-
-// 在回调中：
-atomic.AddInt64(&totalEvents, int64(len(events)))
-
-// 在 goroutine 中：
-go func() {
-    ticker := time.NewTicker(10 * time.Second)
-    for range ticker.C {
-        count := atomic.LoadInt64(&totalEvents)
-        fmt.Printf("总事件数: %d\n", count)
-    }
-}()
-```
-
-
----
-
-## 与 Rust `sol-parser-sdk` 的 RPC 解析对齐说明
-
-- **日志热路径**：`ParseLogOptimized` / `matcher.go` 与 Rust `parse_log_optimized` 对齐。
-- **`ParseRpcTransaction`**：已支持 **ALT 全量账户表**、**外层 8 字节 / 内层 16 字节** 指令解析、**merge**、Pump 系 **账户补全** 与 **PumpSwap `is_pump_pool`（费用程序 CPI）**。
-- **ShredStream**：见 `shredstream` 包（gRPC + `pb`，proto 与 `0xfnzero/solana-streamer` 中 prost 生成物对齐）。`Client` 提供 `SendHeartbeat` 与 `SubscribeEntries`；`Entry.entries` 解码请用 **`DecodeGRPCEntry` / `DecodeEntriesBincode`**（实现参考 [shredstream-sdk-go](https://github.com/shredstream/shredstream-sdk-go) 的线格式解析，得到 `DecodedTransaction`）。
-
-
----
-
-## 📄 许可证
-
-MIT License
-
-## 📞 联系我们
-
-- **仓库**: https://github.com/0xfnzero/sol-parser-sdk-golang
-- **官网**: https://fnzero.dev/
-- **Telegram**: https://t.me/fnzero_group
-- **Discord**: https://discord.gg/vuazbGkqQE
+MIT — https://github.com/0xfnzero/sol-parser-sdk-golang

@@ -4,22 +4,8 @@
 </div>
 
 <p align="center">
-    <strong>High-performance Go library for parsing Solana DEX events in real-time via Yellowstone gRPC</strong>
-</p>
-
-<p align="center">
-    <a href="https://github.com/0xfnzero/sol-parser-sdk-golang">
-        <img src="https://img.shields.io/badge/go-sol--parser--sdk--golang-00ADD8.svg" alt="Go">
-    </a>
-    <a href="https://github.com/0xfnzero/sol-parser-sdk-golang/blob/main/LICENSE">
-        <img src="https://img.shields.io/badge/license-MIT-blue.svg" alt="License">
-    </a>
-</p>
-
-<p align="center">
-    <img src="https://img.shields.io/badge/Go-00ADD8?style=for-the-badge&logo=go&logoColor=white" alt="Go">
-    <img src="https://img.shields.io/badge/Solana-9945FF?style=for-the-badge&logo=solana&logoColor=white" alt="Solana">
-    <img src="https://img.shields.io/badge/gRPC-4285F4?style=for-the-badge&logo=grpc&logoColor=white" alt="gRPC">
+    <a href="https://github.com/0xfnzero/sol-parser-sdk-golang"><img src="https://img.shields.io/badge/go-sol--parser--sdk--golang-00ADD8.svg" alt="Go"></a>
+    <a href="https://github.com/0xfnzero/sol-parser-sdk-golang/blob/main/LICENSE"><img src="https://img.shields.io/badge/license-MIT-blue.svg" alt="License"></a>
 </p>
 
 <p align="center">
@@ -32,49 +18,24 @@
 
 ---
 
-## 📦 SDK Versions
+## Other language SDKs
 
-This SDK is available in multiple languages:
-
-| Language | Repository | Description |
-|----------|------------|-------------|
-| **Rust** | [sol-parser-sdk](https://github.com/0xfnzero/sol-parser-sdk) | Ultra-low latency with SIMD optimization |
-| **Node.js** | [sol-parser-sdk-nodejs](https://github.com/0xfnzero/sol-parser-sdk-nodejs) | TypeScript/JavaScript for Node.js |
-| **Python** | [sol-parser-sdk-python](https://github.com/0xfnzero/sol-parser-sdk-python) | Async/await native support |
-| **Go** | [sol-parser-sdk-golang](https://github.com/0xfnzero/sol-parser-sdk-golang) | Concurrent-safe with goroutine support |
+| Language | Repository |
+|----------|------------|
+| Rust | [sol-parser-sdk](https://github.com/0xfnzero/sol-parser-sdk) |
+| Node.js | [sol-parser-sdk-nodejs](https://github.com/0xfnzero/sol-parser-sdk-nodejs) |
+| Python | [sol-parser-sdk-python](https://github.com/0xfnzero/sol-parser-sdk-python) |
+| Go | [sol-parser-sdk-golang](https://github.com/0xfnzero/sol-parser-sdk-golang) |
 
 ---
 
-## 📊 Performance Highlights
+## How to use
 
-### ⚡ Real-Time Parsing
-- **Sub-millisecond** log-based event parsing
-- **gRPC streaming** with Yellowstone/Geyser protocol
-- **Concurrent-safe** with goroutine support
-- **Event type filtering** for targeted parsing
-- **Zero-allocation** parsing on hot paths where possible
+### 1. Install
 
-### 🎚️ Flexible Order Modes
-| Mode | Latency | Description |
-|------|---------|-------------|
-| **Unordered** | <1ms | Immediate output, ultra-low latency |
-| **MicroBatch** | 1-5ms | Micro-batch ordering with time window |
-| **StreamingOrdered** | 5-20ms | Stream ordering with continuous sequence release |
-| **Ordered** | 10-100ms | Full slot ordering, wait for complete slot |
+This repo’s `go.mod` module path is **`sol-parser-sdk-golang`** (see [`go.mod`](go.mod)). Examples import `sol-parser-sdk-golang/solparser`.
 
-### 🚀 Optimization Highlights
-- ✅ **Concurrent-safe** atomic counters and goroutine-based stats
-- ✅ **Optimized pattern matching** for protocol detection
-- ✅ **Event type filtering** for targeted parsing
-- ✅ **Conditional Create detection** (only when needed)
-- ✅ **Multiple order modes** for latency vs ordering trade-off
-- ✅ **Efficient memory usage** with buffer pooling
-
----
-
-## 🔥 Quick Start
-
-### Installation
+**From source** (recommended)
 
 ```bash
 git clone https://github.com/0xfnzero/sol-parser-sdk-golang
@@ -82,355 +43,117 @@ cd sol-parser-sdk-golang
 go mod tidy
 ```
 
-### Use Go Modules
+**Use in another module** — add a `replace` to this GitHub repo (or a local clone), for example:
 
-```bash
-go get github.com/0xfnzero/sol-parser-sdk-golang
+```go
+require sol-parser-sdk-golang v0.0.0
+
+replace sol-parser-sdk-golang => github.com/0xfnzero/sol-parser-sdk-golang v0.0.0
 ```
 
-### Performance Testing
+(Use a real tagged version once published, or `replace ... => ../sol-parser-sdk-golang` for local dev.)
 
-Test parsing with the optimized examples:
+### 2. Environment (examples)
+
+| Path | Variables |
+|------|-----------|
+| Most Yellowstone-style gRPC examples | `GEYSER_ENDPOINT`, `GEYSER_API_TOKEN` (or compatible env names used in each file) |
+| [yellowstone_grpc_parse.go](examples/yellowstone_grpc_parse.go) | `GRPC_URL`, `GRPC_TOKEN` (falls back to `GEYSER_ENDPOINT` / `GEYSER_API_TOKEN`) |
+| [shredstream_entries.go](examples/shredstream_entries.go) | **`SHRED_URL`** or **`SHRED_GRPC_ADDR`** — HTTP `host:port` for **plain-text** ShredStream gRPC (**not** `GRPC_URL`) |
+| [parse_tx_by_signature.go](examples/parse_tx_by_signature.go) | `TX_SIGNATURE`, `RPC_URL` |
+
+ShredStream example optional env: `SHRED_PARSE_DEX`, `SHRED_MAX_JSON_PER_ENTRY`, `SHRED_JSON_COMPACT`, `SHREDSTREAM_QUIET`, `SHRED_MAX_MSG` — see file header in [examples/shredstream_entries.go](examples/shredstream_entries.go).
+
+### 3. Smoke test
 
 ```bash
-# PumpFun trade filter (Buy/Sell/BuyExactSolIn/Create)
-GEYSER_API_TOKEN=your_token go run examples/pumpfun_trade_filter.go
+go test ./...
+```
 
-# PumpSwap low-latency with performance metrics
-GEYSER_API_TOKEN=your_token go run examples/pumpswap_low_latency.go
+### 4. Full gRPC transaction parse (recommended)
 
-# All protocols simultaneously
-GEYSER_API_TOKEN=your_token go run examples/multi_protocol_grpc.go
+Use **`ParseSubscribeTransaction`** (Geyser `SubscribeUpdateTransactionInfo` → RPC-shaped tx + meta) for **instruction accounts + Program data logs + merge + Pump fills**, aligned with Rust `parse_rpc_transaction` behavior.
 
-# ShredStream (gRPC): SubscribeEntries + DecodeGRPCEntry
+```go
+import "sol-parser-sdk-golang/solparser" // module path: see go.mod
+
+events, err := solparser.ParseSubscribeTransaction(slot, txInfo, nil, grpcRecvUs)
+if err != nil {
+    // handle
+}
+for _, ev := range events {
+    // ev.Type, ev.Data — JSON via json.Marshal(ev)
+}
+```
+
+**Lighter path:** `ParseLogOptimized` / logs-only helpers when you do not have full transaction + meta.
+
+### 5. ShredStream (HTTP endpoint — not Yellowstone gRPC)
+
+Uses **`SHRED_URL`** / **`SHRED_GRPC_ADDR`** (e.g. `http://127.0.0.1:10800`). Not `GRPC_URL`.
+
+```bash
 export SHRED_URL="http://127.0.0.1:10800"
 go run examples/shredstream_entries.go
-
-# Yellowstone with GRPC_URL / GRPC_TOKEN
-export GRPC_URL="https://solana-yellowstone-grpc.publicnode.com:443"
-export GRPC_TOKEN="your_token"
-go run examples/yellowstone_grpc_parse.go
-
-# Expected output:
-# gRPC接收时间: 1234567890 μs
-# 事件接收时间: 1234567900 μs
-# 延迟时间: 10 μs  <-- Ultra-low latency!
 ```
 
-### Examples
+The example decodes `Entry.entries`, optionally parses outer instructions to **`DexEvent` JSON** via **`DexEventsFromShredTransactionWire`** (static account keys only; V0 + ALT may need TS **`shredstream_pumpfun_json`** + RPC for full keys).
 
-| Description | Run Command | Source Code |
-|-------------|-------------|-------------|
+---
+
+## Examples
+
+Run from the **repository root** after `go mod tidy`. One row per source file (links point to GitHub `main`).
+
+| Description | Run command | Source |
+|-------------|-------------|--------|
 | **PumpFun** | | |
-| PumpFun trade filtering with latency metrics | `go run examples/pumpfun_trade_filter.go` | [examples/pumpfun_trade_filter.go](https://github.com/0xfnzero/sol-parser-sdk-golang/blob/main/examples/pumpfun_trade_filter.go) |
-| Quick PumpFun connection test | `go run examples/pumpfun_quick_test.go` | [examples/pumpfun_quick_test.go](https://github.com/0xfnzero/sol-parser-sdk-golang/blob/main/examples/pumpfun_quick_test.go) |
+| PumpFun `DexEvent` + metrics | `GEYSER_API_TOKEN=… go run examples/pumpfun_with_metrics.go` | [pumpfun_with_metrics.go](https://github.com/0xfnzero/sol-parser-sdk-golang/blob/main/examples/pumpfun_with_metrics.go) |
+| PumpFun trade filter | `GEYSER_API_TOKEN=… go run examples/pumpfun_trade_filter.go` | [pumpfun_trade_filter.go](https://github.com/0xfnzero/sol-parser-sdk-golang/blob/main/examples/pumpfun_trade_filter.go) |
+| Quick connection test | `GEYSER_API_TOKEN=… go run examples/pumpfun_quick_test.go` | [pumpfun_quick_test.go](https://github.com/0xfnzero/sol-parser-sdk-golang/blob/main/examples/pumpfun_quick_test.go) |
 | **PumpSwap** | | |
-| PumpSwap ultra-low latency with stats | `go run examples/pumpswap_low_latency.go` | [examples/pumpswap_low_latency.go](https://github.com/0xfnzero/sol-parser-sdk-golang/blob/main/examples/pumpswap_low_latency.go) |
-| PumpSwap events with metrics | `go run examples/pumpswap_with_metrics.go` | [examples/pumpswap_with_metrics.go](https://github.com/0xfnzero/sol-parser-sdk-golang/blob/main/examples/pumpswap_with_metrics.go) |
+| PumpSwap + metrics | `GEYSER_API_TOKEN=… go run examples/pumpswap_with_metrics.go` | [pumpswap_with_metrics.go](https://github.com/0xfnzero/sol-parser-sdk-golang/blob/main/examples/pumpswap_with_metrics.go) |
+| Ultra-low latency | `GEYSER_API_TOKEN=… go run examples/pumpswap_low_latency.go` | [pumpswap_low_latency.go](https://github.com/0xfnzero/sol-parser-sdk-golang/blob/main/examples/pumpswap_low_latency.go) |
 | **Meteora DAMM** | | |
-| Meteora DAMM V2 events | `go run examples/meteora_damm_grpc.go` | [examples/meteora_damm_grpc.go](https://github.com/0xfnzero/sol-parser-sdk-golang/blob/main/examples/meteora_damm_grpc.go) |
-| **Multi-Protocol** | | |
-| Subscribe to all DEX protocols | `go run examples/multi_protocol_grpc.go` | [examples/multi_protocol_grpc.go](https://github.com/0xfnzero/sol-parser-sdk-golang/blob/main/examples/multi_protocol_grpc.go) |
-| **ShredStream** | | |
-| gRPC subscribe + `entries` decode (Rust `shredstream_example` style) | `SHRED_URL=http://host:port go run examples/shredstream_entries.go` | [examples/shredstream_entries.go](https://github.com/0xfnzero/sol-parser-sdk-golang/blob/main/examples/shredstream_entries.go) |
+| Meteora DAMM V2 | `GEYSER_API_TOKEN=… go run examples/meteora_damm_grpc.go` | [meteora_damm_grpc.go](https://github.com/0xfnzero/sol-parser-sdk-golang/blob/main/examples/meteora_damm_grpc.go) |
+| **ShredStream** (see **step 5** above) | | |
+| SubscribeEntries + decode + optional `DexEvent` JSON | `SHRED_URL=http://host:port go run examples/shredstream_entries.go` | [shredstream_entries.go](https://github.com/0xfnzero/sol-parser-sdk-golang/blob/main/examples/shredstream_entries.go) |
 | **Yellowstone** | | |
-| Geyser + `ParseLogsOnly` (`GRPC_URL` / `GRPC_TOKEN`) | `GRPC_URL=... GRPC_TOKEN=... go run examples/yellowstone_grpc_parse.go` | [examples/yellowstone_grpc_parse.go](https://github.com/0xfnzero/sol-parser-sdk-golang/blob/main/examples/yellowstone_grpc_parse.go) |
-
-### Basic Usage
-
-```go
-package main
-
-import (
-    "context"
-    "fmt"
-    "log"
-    "os"
-
-    "sol-parser-sdk-golang/solparser"
-    "github.com/mr-tron/base58"
-)
-
-func main() {
-    endpoint := "solana-yellowstone-grpc.publicnode.com:443"
-    token := os.Getenv("GEYSER_API_TOKEN")
-
-    client := solparser.NewGrpcClient(endpoint, token)
-    if err := client.Connect(); err != nil {
-        log.Fatal(err)
-    }
-    defer client.Close()
-
-    filter := &solparser.TransactionFilter{
-        AccountInclude: []string{
-            solparser.PUMPFUN_PROGRAM_ID,
-            solparser.PUMPSWAP_PROGRAM_ID,
-        },
-        Vote:   false,
-        Failed: false,
-    }
-
-    err := client.SubscribeTransactions(context.Background(), filter, func(update *solparser.TransactionUpdate) {
-        txInfo := update.Transaction
-        if txInfo == nil {
-            return
-        }
-
-        sigStr := base58.Encode(txInfo.Signature)
-        logs := txInfo.LogMessages
-
-        events, err := solparser.ParseLogsOnly(logs, sigStr, update.Slot, nil)
-        if err != nil || len(events) == 0 {
-            return
-        }
-
-        for _, ev := range events {
-            fmt.Printf("[%s] %+v\n", ev.EventType(), ev)
-        }
-    })
-    if err != nil {
-        log.Fatal(err)
-    }
-}
-```
+| Geyser subscribe + `ParseSubscribeTransaction` | `GRPC_URL=… GRPC_TOKEN=… go run examples/yellowstone_grpc_parse.go` | [yellowstone_grpc_parse.go](https://github.com/0xfnzero/sol-parser-sdk-golang/blob/main/examples/yellowstone_grpc_parse.go) |
+| **Multi-protocol** | | |
+| All supported DEX programs | `GEYSER_API_TOKEN=… go run examples/multi_protocol_grpc.go` | [multi_protocol_grpc.go](https://github.com/0xfnzero/sol-parser-sdk-golang/blob/main/examples/multi_protocol_grpc.go) |
+| **Utility** | | |
+| Parse tx by signature (RPC, not gRPC stream) | `TX_SIGNATURE=… RPC_URL=… go run examples/parse_tx_by_signature.go` | [parse_tx_by_signature.go](https://github.com/0xfnzero/sol-parser-sdk-golang/blob/main/examples/parse_tx_by_signature.go) |
 
 ---
 
-## 🏗️ Supported Protocols
+## Protocols
 
-### DEX Protocols
-- ✅ **PumpFun** - Meme coin trading
-- ✅ **PumpSwap** - PumpFun swap protocol
-- ✅ **Raydium AMM V4** - Automated Market Maker
-- ✅ **Raydium CLMM** - Concentrated Liquidity
-- ✅ **Raydium CPMM** - Concentrated Pool
-- ✅ **Orca Whirlpool** - Concentrated liquidity AMM
-- ✅ **Meteora DAMM V2** - Dynamic AMM
-- ✅ **Meteora DLMM** - Dynamic Liquidity Market Maker
-- ✅ **Bonk Launchpad** - Token launch platform
-
-### Event Types
-Each protocol supports:
-- 📈 **Trade/Swap Events** - Buy/sell transactions
-- 💧 **Liquidity Events** - Deposits/withdrawals
-- 🏊 **Pool Events** - Pool creation/initialization
-- 🎯 **Position Events** - Open/close positions (CLMM)
+PumpFun, PumpSwap, Raydium AMM V4 / CLMM / CPMM, Orca Whirlpool, Meteora DAMM V2 / DLMM, Bonk Launchpad (see `solparser/`).
 
 ---
 
-## ⚡ Performance Features
+## Useful exports
 
-### Optimized Pattern Matching
-```go
-import (
-    "strings"
-
-    "sol-parser-sdk-golang/solparser"
-)
-
-// Program IDs: see solparser/program_ids.go (aligned with Rust sol-parser-sdk)
-
-// Fast check before full parsing
-if strings.Contains(logString, solparser.PUMPFUN_PROGRAM_ID) {
-    return parsePumpFunEvent(logs, signature, slot)
-}
-```
-
-### Event Type Filtering
-```go
-// Filter specific event types for targeted parsing
-eventFilter := &solparser.EventTypeFilter{
-    IncludeOnly: []solparser.EventType{
-        solparser.EventTypePumpFunTrade,
-        solparser.EventTypePumpSwapBuy,
-    },
-}
-```
-
-### Concurrent Stats with Atomic Counters
-```go
-import "sync/atomic"
-
-var totalEvents int64
-
-// In callback:
-atomic.AddInt64(&totalEvents, int64(len(events)))
-
-// In goroutine:
-go func() {
-    ticker := time.NewTicker(10 * time.Second)
-    for range ticker.C {
-        count := atomic.LoadInt64(&totalEvents)
-        fmt.Printf("Total events: %d\n", count)
-    }
-}()
-```
+- **`ParseSubscribeTransaction`** — Geyser single-tx → `[]DexEvent` (instructions + logs + merge + Pump account fill).
+- **`ParseRpcTransaction`** / **`ParseTransactionFromRpc`** — HTTP RPC JSON → events.
+- **`ParseInstructionUnified`** / **`ParseInnerInstructionUnified`** — outer 8-byte / inner 16-byte discriminators.
+- **`DexEventsFromShredTransactionWire`** — wire tx bytes → outer `ParseInstructionUnified` (Shred static keys).
+- **`DecodeGRPCEntry`** / **`DecodeEntriesBincode`** — ShredStream `Entry.entries` bytes → `DecodedTransaction` slices.
+- **`DexEvent`** — `json.Marshal` for `{ "PumpSwapBuy": { … } }` style output.
 
 ---
 
-## 🎯 Event Filtering
-
-Reduce processing overhead by filtering specific events:
-
-### Example: Trading Bot
-```go
-eventFilter := &solparser.EventTypeFilter{
-    IncludeOnly: []solparser.EventType{
-        solparser.EventTypePumpFunTrade,
-        solparser.EventTypeRaydiumAmmV4Swap,
-        solparser.EventTypeRaydiumClmmSwap,
-        solparser.EventTypeOrcaWhirlpoolSwap,
-    },
-}
-```
-
-### Example: Pool Monitor
-```go
-eventFilter := &solparser.EventTypeFilter{
-    IncludeOnly: []solparser.EventType{
-        solparser.EventTypePumpFunCreate,
-        solparser.EventTypePumpSwapCreatePool,
-    },
-}
-```
-
-**Performance Impact:**
-- 60-80% reduction in processing
-- Lower memory usage
-- Reduced network bandwidth
-
----
-
-## 🔧 Advanced Features
-
-### Create+Buy Detection
-Automatically detects when a token is created and immediately bought in the same transaction:
-
-```go
-// Automatically detects "Program data: GB7IKAUcB3c..." pattern
-events, err := solparser.ParseLogsOnly(logs, signature, slot, nil)
-
-// Sets IsCreatedBuy flag on Trade events
-for _, ev := range events {
-    if trade, ok := ev.(*solparser.PumpFunTrade); ok && trade.IsCreatedBuy {
-        fmt.Println("Create+Buy detected!")
-    }
-}
-```
-
-### Custom gRPC Endpoint
-
-```go
-endpoint := os.Getenv("GEYSER_ENDPOINT")
-if endpoint == "" {
-    endpoint = "solana-yellowstone-grpc.publicnode.com:443"
-}
-token := os.Getenv("GEYSER_API_TOKEN")
-client := solparser.NewGrpcClient(endpoint, token)
-```
-
-### Unsubscribe
-
-```go
-// Context-based cancellation
-ctx, cancel := context.WithCancel(context.Background())
-defer cancel()
-
-err := client.SubscribeTransactions(ctx, filter, callback)
-```
-
----
-
-## 📁 Project Structure
-
-```
-sol-parser-sdk-golang/
-├── solparser/
-│   ├── grpc_client.go      # GrpcClient (connect, subscribe, auth)
-│   ├── parser.go           # ParseLogsOnly, ParseTransactionEvents
-│   ├── types.go            # DexEvent, TransactionFilter, TransactionUpdate
-│   └── ...                 # Protocol-specific parsers
-├── proto/
-│   ├── geyser.proto        # Yellowstone gRPC proto
-│   └── generated/          # Generated Go proto files
-├── examples/
-│   ├── pumpfun_trade_filter.go
-│   ├── pumpfun_quick_test.go
-│   ├── pumpswap_low_latency.go
-│   ├── pumpswap_with_metrics.go
-│   ├── meteora_damm_grpc.go
-│   └── multi_protocol_grpc.go
-├── go.mod
-└── go.sum
-```
-
----
-
-## 🚀 Optimization Techniques
-
-### 1. **Concurrent-Safe Design**
-- Atomic counters for stats
-- Goroutine-safe callbacks
-- Lock-free event delivery where possible
-
-### 2. **Optimized Pattern Matching**
-- Pre-defined protocol identifiers
-- Fast string matching with strings.Contains
-- Minimal string allocations
-
-### 3. **Event Type Filtering**
-- Early filtering at protocol level
-- Conditional Create detection
-- Single-type ultra-fast path
-
-### 4. **Efficient Memory Usage**
-- Buffer pooling where possible
-- Minimal heap allocations
-- Reusable buffers for parsing
-
-### 5. **Context Support**
-- Graceful cancellation
-- Timeout handling
-- Resource cleanup
-
----
-
-## 📄 License
-
-MIT License
-
-## 📞 Contact
-
-- **Repository**: https://github.com/0xfnzero/sol-parser-sdk-golang
-- **Website**: https://fnzero.dev/
-- **Telegram**: https://t.me/fnzero_group
-- **Discord**: https://discord.gg/vuazbGkqQE
-
----
-
-## ⚠️ Performance Tips
-
-1. **Use Event Filtering** — Filter by program ID for 60-80% performance gain
-2. **Run with race detector** — `go run -race` to verify concurrent safety
-3. **Monitor goroutines** — Keep track of goroutine count in production
-4. **Use atomic counters** — For thread-safe statistics
-5. **Tune buffer sizes** — Adjust channel buffers based on throughput
-
-## 🔬 Development
+## Development
 
 ```bash
-# Run tests
 go test ./...
-
-# Run with race detector
-go test -race ./...
-
-# Build
 go build ./...
-
-# Format code
-go fmt ./...
-
-# Vet code
 go vet ./...
 ```
+
+---
+
+## License
+
+MIT — https://github.com/0xfnzero/sol-parser-sdk-golang

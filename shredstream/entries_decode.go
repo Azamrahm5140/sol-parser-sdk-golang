@@ -40,6 +40,19 @@ func DecodeGRPCEntry(e *pb.Entry) (slot uint64, txs []DecodedTransaction, err er
 	return e.GetSlot(), txs, nil
 }
 
+// BincodeVecEntryCount 返回 `entries` 负载中 bincode `Vec<Entry>` 的长度（前 8 字节 little-endian u64）。
+// 与 Node `shredstream` 客户端里 `decoded.length`（solana_entries 个数）一致。
+func BincodeVecEntryCount(entriesBytes []byte) (uint64, error) {
+	if len(entriesBytes) < 8 {
+		return 0, fmt.Errorf("shredstream: entries payload too short for vec length")
+	}
+	n := binary.LittleEndian.Uint64(entriesBytes[0:8])
+	if n > 100_000 {
+		return 0, fmt.Errorf("shredstream: corrupt entry_count %d exceeds limit", n)
+	}
+	return n, nil
+}
+
 // DecodeEntriesBincode 解码 `Entry.entries` 字节：Rust 侧
 // `bincode::deserialize::<Vec<solana_entry::entry::Entry>>` 与 solana-streamer 用法一致。
 // 内部按 Solana Entry 字段顺序（num_hashes、hash、transactions 线格式）解析，与

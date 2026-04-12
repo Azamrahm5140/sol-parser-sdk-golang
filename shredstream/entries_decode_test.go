@@ -44,3 +44,19 @@ func TestDecodeEntriesBincode_TruncatedVec(t *testing.T) {
 		t.Fatal("expected error")
 	}
 }
+
+func TestBincodeVecEntryCount(t *testing.T) {
+	data := make([]byte, 8)
+	binary.LittleEndian.PutUint64(data, 3)
+	n, err := BincodeVecEntryCount(data)
+	if err != nil {
+		t.Fatal(err)
+	}
+	if n != 3 {
+		t.Fatalf("want 3 got %d", n)
+	}
+	_, err = BincodeVecEntryCount([]byte{1, 2})
+	if err == nil {
+		t.Fatal("expected error for short buffer")
+	}
+}
