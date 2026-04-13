@@ -292,6 +292,20 @@ func (c *YellowstoneGrpc) handleStream(ctx context.Context, stream pb.Geyser_Sub
 			return
 		}
 
+		// Geyser 周期性下发 SubscribeUpdate.ping；必须在同一 Subscribe 双向流上回写 SubscribeRequest.ping，
+		// 与 Rust / TypeScript 客户端一致，否则公共节点或 LB 可能 RST_STREAM。
+		if resp.GetPing() != nil {
+			if err := stream.Send(&pb.SubscribeRequest{
+				Ping: &pb.SubscribeRequestPing{Id: 1},
+			}); err != nil {
+				if sub.callbacks.OnError != nil {
+					sub.callbacks.OnError(err)
+				}
+				return
+			}
+			continue
+		}
+
 		if sub.callbacks.OnUpdate != nil {
 			update := c.convertSubscribeUpdate(resp)
 			sub.callbacks.OnUpdate(update)
